@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const roles = ["STUDENT", "FACULTY", "HOD", "ADMIN", "STAFF", "PARENT"];
 
@@ -363,9 +364,9 @@ export default function Login() {
                   </button>
 
                   <div className="flex flex-col items-center gap-1 mt-1">
-                    <a href="#" className="text-xs text-blue-600 hover:text-blue-800 hover:underline transition-colors">
+                    <Link to={'forgotpassword'} className="text-xs text-blue-600 hover:text-blue-800 hover:underline transition-colors">
                       Forgot Password?
-                    </a>
+                    </Link>
                     <a href="#" className="text-xs text-blue-600 hover:text-blue-800 hover:underline transition-colors">
                       Register (First Time Users)
                     </a>

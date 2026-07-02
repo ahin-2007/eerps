@@ -1,17 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 import Login from './Pages/Login'
 import ForgotPassword from './Pages/Forgotpassword'
+import { createBrowserRouter,RouterProvider } from "react-router-dom"
+
+const router=createBrowserRouter([{
+  path:"/",
+  element:<Login/>
+},{
+  path:"forgotpassword",
+  element:<ForgotPassword/>
+}]
+
+)
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
-     <ForgotPassword/>
+     <RouterProvider router={router}/>
     </>
   )
 }

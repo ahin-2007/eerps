@@ -379,7 +379,7 @@ export default function ForgotPassword() {
                   <span className="text-gray-800">Campus</span>
                   <span className="text-blue-600">Connect</span>
                 </div>
-                <div className="text-xs text-gray-500">Your Smart College Companion</div>
+                <div className="text-xs text-gray-500">Your  College Companion</div>
               </div>
             </div>
 

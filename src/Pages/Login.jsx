@@ -1,38 +1,38 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const roles = ["STUDENT", "FACULTY", "HOD", "ADMIN", "STAFF", "PARENT"];
+const roles = ["STUDENT", "PARENT", "FACULTY", "HOD", "ADMIN", "STAFF",];
 
 const roleIcons = {
   STUDENT: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
     </svg>
   ),
   FACULTY: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
     </svg>
   ),
   HOD: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/><path d="M12 12v9"/><path d="M8 17l4-2 4 2"/>
+      <circle cx="12" cy="8" r="4" /><path d="M20 21a8 8 0 1 0-16 0" /><path d="M12 12v9" /><path d="M8 17l4-2 4 2" />
     </svg>
   ),
   ADMIN: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     </svg>
   ),
   STAFF: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   ),
   PARENT: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   ),
 };
@@ -269,11 +269,10 @@ export default function Login() {
                     <button
                       key={role}
                       onClick={() => setActiveRole(role)}
-                      className={`px-2.5 py-1.5 text-xs font-semibold tracking-wide transition-colors focus:outline-none ${
-                        activeRole === role
+                      className={`px-2.5 py-1.5 text-xs font-semibold tracking-wide transition-colors focus:outline-none ${activeRole === role
                           ? "text-blue-600 border-b-2 border-blue-600 -mb-px"
                           : "text-gray-500 hover:text-blue-500"
-                      }`}
+                        }`}
                     >
                       {role}
                     </button>
@@ -298,17 +297,16 @@ export default function Login() {
 
                   {/* Dropdown menu */}
                   {dropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-30 overflow-hidden">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-30 overflow-x-scroll h-60">
                       {roles.map((role) => (
                         <button
                           key={role}
                           type="button"
                           onClick={() => selectRole(role)}
-                          className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-medium transition-colors ${
-                            activeRole === role
+                          className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-medium transition-colors ${activeRole === role
                               ? "bg-blue-50 text-blue-700"
                               : "text-gray-700 hover:bg-gray-50"
-                          }`}
+                            }`}
                         >
                           <span className="flex items-center gap-3">
                             <span className={activeRole === role ? "text-blue-600" : "text-gray-400"}>
@@ -356,11 +354,42 @@ export default function Login() {
                     </button>
                   </div>
 
+
                   <button
                     type="submit"
                     className="flex items-center justify-center gap-2 py-3 px-6 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg text-sm"
                   >
                     Login <ArrowRightIcon />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-3 py-3 px-6 w-full bg-white hover:bg-gray-100 active:bg-gray-200 text-gray-800 font-semibold rounded-lg border border-gray-300 transition-all shadow-md hover:shadow-lg text-sm"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 48 48"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        fill="#FFC107"
+                        d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12S17.4 12 24 12c3 0 5.7 1.1 7.8 3l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.5-.4-3.5z"
+                      />
+                      <path
+                        fill="#FF3D00"
+                        d="M6.3 14.7l6.6 4.8C14.7 15.4 19 12 24 12c3 0 5.7 1.1 7.8 3l5.7-5.7C34.1 6.1 29.3 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"
+                      />
+                      <path
+                        fill="#4CAF50"
+                        d="M24 44c5.2 0 10-2 13.5-5.2l-6.2-5.2c-2.1 1.6-4.7 2.4-7.3 2.4-5.3 0-9.7-3.3-11.3-8l-6.6 5.1C9.5 39.6 16.2 44 24 44z"
+                      />
+                      <path
+                        fill="#1976D2"
+                        d="M43.6 20.5H42V20H24v8h11.3c-1.1 3-3.3 5.3-6 6.8l6.2 5.2C39.2 36.6 44 31 44 24c0-1.3-.1-2.5-.4-3.5z"
+                      />
+                    </svg>
+
+                    <span>Continue with Google</span>
                   </button>
 
                   <div className="flex flex-col items-center gap-1 mt-1">

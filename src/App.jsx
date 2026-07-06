@@ -2,6 +2,7 @@ import './App.css'
 import Login from './Pages/Login'
 import ForgotPassword from './Pages/Forgotpassword'
 import { createBrowserRouter,RouterProvider } from "react-router-dom"
+import CampusConnect from './Pages/Campusconnect'
 
 const router=createBrowserRouter([{
   path:"/",
@@ -9,6 +10,10 @@ const router=createBrowserRouter([{
 },{
   path:"forgotpassword",
   element:<ForgotPassword/>
+},
+{
+  path:"t",
+  element:<CampusConnect/>
 }]
 
 )

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../Components/Dashboard";
 import BusTracking from "../Components/Bustracking";
-import AboutCollege from "./Aboutcollege";
+import AboutCollege from "../Components/AboutCollege";
 const navItems = [
   { label: "Dashboard",    icon: "🏠" },
   { label: "AboutCollege", icon: "🏛️" },

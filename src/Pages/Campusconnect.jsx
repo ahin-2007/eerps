@@ -5,6 +5,7 @@ import AboutCollege from "../Components/AboutCollege";
 import Results from "../Components/Results";
 import Timetable from "../Components/Timetable";
 import Attendance from "../Components/Attendance";
+import Notes from "../Components/Notes";
 
 
 const navItems = [
@@ -31,6 +32,8 @@ const COMPONENT_MAP = {
   Results:<Results/>,
   Timetable:<Timetable/>,
   Attendance:<Attendance/>
+  ,
+  Notes:<Notes/>
 };
 
 export default function CampusConnect() {

@@ -12,7 +12,7 @@ const router=createBrowserRouter([{
   element:<ForgotPassword/>
 },
 {
-  path:"t",
+  path:"student",
   element:<CampusConnect/>
 }]
 

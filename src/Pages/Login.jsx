@@ -195,13 +195,14 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    alert(`Logging in as ${activeRole}`);
+    
   };
 
   const selectRole = (role) => {
     setActiveRole(role);
     setDropdownOpen(false);
   };
+ 
 
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col relative">
@@ -266,7 +267,7 @@ export default function Login() {
                 {/* ── DESKTOP: tab strip ── */}
                 <div className="hidden md:flex flex-wrap border-b border-gray-200 mb-4">
                   {roles.map((role) => (
-                    <button
+                    <Link
                       key={role}
                       onClick={() => setActiveRole(role)}
                       className={`px-2.5 py-1.5 text-xs font-semibold tracking-wide transition-colors focus:outline-none ${activeRole === role
@@ -275,7 +276,7 @@ export default function Login() {
                         }`}
                     >
                       {role}
-                    </button>
+                    </Link>
                   ))}
                 </div>
 
@@ -302,7 +303,9 @@ export default function Login() {
                         <button
                           key={role}
                           type="button"
-                          onClick={() => selectRole(role)}
+                          onClick={() => {selectRole(role)
+                           
+                          }}
                           className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-medium transition-colors ${activeRole === role
                               ? "bg-blue-50 text-blue-700"
                               : "text-gray-700 hover:bg-gray-50"
@@ -355,12 +358,13 @@ export default function Login() {
                   </div>
 
 
-                  <button
+                  <Link
                     type="submit"
+                    to={campusId ? `/${activeRole.toLowerCase()}` : "/"}
                     className="flex items-center justify-center gap-2 py-3 px-6 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg text-sm"
                   >
                     Login <ArrowRightIcon />
-                  </button>
+                  </Link>
 
                   <button
                     type="button"

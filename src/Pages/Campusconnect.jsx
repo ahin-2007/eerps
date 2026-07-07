@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../Components/Dashboard";
-import BusTracking from "../Components/Bustracking";
+import BusTracking from "../Components/BusTracking";
 import AboutCollege from "../Components/AboutCollege";
 const navItems = [
   { label: "Dashboard",    icon: "🏠" },

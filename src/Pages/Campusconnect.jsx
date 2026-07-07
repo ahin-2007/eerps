@@ -3,6 +3,8 @@ import Dashboard from "../Components/Dashboard";
 import BusTracking from "../Components/BusTracking";
 import AboutCollege from "../Components/AboutCollege";
 import Results from "../Components/Results";
+import Timetable from "../Components/Timetable";
+import Attendance from "../Components/Attendance";
 
 
 const navItems = [
@@ -26,7 +28,9 @@ const COMPONENT_MAP = {
   Dashboard:    <Dashboard />,
   BusTracking:  <BusTracking />,
   AboutCollege: <AboutCollege />,
-  Results:<Results/>
+  Results:<Results/>,
+  Timetable:<Timetable/>,
+  Attendance:<Attendance/>
 };
 
 export default function CampusConnect() {

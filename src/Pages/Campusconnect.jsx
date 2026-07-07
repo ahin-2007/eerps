@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import Dashboard from "../Components/Dashboard";
 import BusTracking from "../Components/BusTracking";
 import AboutCollege from "../Components/AboutCollege";
+import Results from "../Components/Results";
+
+
 const navItems = [
   { label: "Dashboard",    icon: "🏠" },
   { label: "AboutCollege", icon: "🏛️" },
@@ -16,37 +19,34 @@ const navItems = [
   { label: "ContactUs",    icon: "📞" },
 ];
 
+// First 5 items appear in the mobile bottom tab bar
+const bottomNavItems = navItems.slice(0, 5);
+
 const COMPONENT_MAP = {
   Dashboard:    <Dashboard />,
   BusTracking:  <BusTracking />,
- 
   AboutCollege: <AboutCollege />,
-  // Results:      <Results />,
+  Results:<Results/>
 };
 
 export default function CampusConnect() {
-  const [activePage, setActivePage] = useState("Dashboard");
+  const [activePage, setActivePage]   = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchOpen, setSearchOpen]   = useState(false);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
-    if (sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [sidebarOpen]);
 
-  // Close drawer on nav item click on mobile
   const handleNavClick = (label) => {
     setActivePage(label);
-    // Only auto-close on mobile (window < 768px)
     if (window.innerWidth < 768) setSidebarOpen(false);
   };
 
   const activeComponent = COMPONENT_MAP[activePage] ?? (
-    <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-400">
+    <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-400 py-24">
       <span className="text-5xl">
         {navItems.find((n) => n.label === activePage)?.icon}
       </span>
@@ -58,7 +58,7 @@ export default function CampusConnect() {
   return (
     <div className="flex h-screen bg-gray-100 font-sans text-sm overflow-hidden">
 
-      {/* ── Backdrop — mobile only, renders behind drawer ── */}
+      {/* ── Mobile backdrop ── */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-20 bg-black/50 md:hidden"
@@ -68,8 +68,8 @@ export default function CampusConnect() {
       )}
 
       {/* ── Sidebar ──
-            Mobile  : fixed, full-height drawer that slides in from left (z-30 so it's above backdrop)
-            Desktop : static flex item, always visible, collapses width like before
+          Mobile : fixed overlay drawer, slides in/out via translate
+          Desktop: static always-visible panel at w-56
       ── */}
       <aside
         className={`
@@ -77,17 +77,13 @@ export default function CampusConnect() {
           bg-white border-r border-gray-200
           transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:static md:z-auto md:flex-shrink-0
-          md:transition-all md:duration-300
-          md:translate-x-0
-          ${sidebarOpen ? "md:w-56" : "md:w-0 md:overflow-hidden"}
+          md:static md:z-auto md:w-56 md:translate-x-0 md:flex-shrink-0
           overflow-y-auto overflow-x-hidden
         `}
       >
-        {/* Sidebar inner — fixed width so content never reflows during animation */}
-        <div className="w-64 md:w-56 flex flex-col flex-1">
+        <div className="w-64 md:w-56 flex flex-col h-full">
 
-          {/* Logo + mobile close button */}
+          {/* Logo + mobile close */}
           <div className="flex items-center gap-2.5 px-4 py-4 border-b border-gray-100 flex-shrink-0">
             <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center text-white text-lg font-bold shadow-sm flex-shrink-0">
               C
@@ -96,7 +92,6 @@ export default function CampusConnect() {
               <p className="font-bold text-blue-700 text-sm leading-tight">CampusConnect</p>
               <p className="text-gray-400 text-[10px] leading-tight">Everything Students Need</p>
             </div>
-            {/* Close ✕ — visible on mobile only */}
             <button
               onClick={() => setSidebarOpen(false)}
               className="md:hidden ml-auto p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0"
@@ -107,7 +102,7 @@ export default function CampusConnect() {
           </div>
 
           {/* Nav items */}
-          <nav className="flex-1 py-2">
+          <nav className="flex-1 py-2 overflow-y-auto">
             {navItems.map((item) => (
               <button
                 key={item.label}
@@ -118,7 +113,6 @@ export default function CampusConnect() {
                     : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
-                {/* Active indicator bar */}
                 {activePage === item.label && (
                   <span className="absolute right-0 top-0 h-full w-0.5 bg-blue-600 rounded-l" />
                 )}
@@ -142,11 +136,12 @@ export default function CampusConnect() {
         </div>
       </aside>
 
-      {/* ── Main area — always full width on mobile since sidebar is fixed overlay ── */}
+      {/* ── Main area ── */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0 w-full">
 
         {/* Top bar */}
         <header className="bg-white border-b border-gray-200 flex items-center px-4 py-3 gap-3 flex-shrink-0">
+          {/* Hamburger — always visible, opens drawer */}
           <button
             onClick={() => setSidebarOpen((o) => !o)}
             className="text-gray-500 hover:text-gray-700 text-xl flex-shrink-0 transition-colors"
@@ -155,7 +150,8 @@ export default function CampusConnect() {
             ☰
           </button>
 
-          <div className="flex-1 max-w-md relative">
+          {/* Search bar — hidden on mobile, shown on md+ */}
+          <div className="hidden md:block flex-1 max-w-md relative">
             <input
               type="text"
               placeholder="Search anything..."
@@ -166,10 +162,24 @@ export default function CampusConnect() {
             </span>
           </div>
 
-          {/* Current page breadcrumb */}
+          {/* Mobile: search icon button */}
+          <button
+            onClick={() => setSearchOpen((o) => !o)}
+            className="md:hidden text-xl text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label="Search"
+          >
+            🔍
+          </button>
+
+          {/* Breadcrumb */}
           <span className="hidden md:block text-[12px] text-gray-400 font-medium flex-shrink-0">
             {navItems.find((n) => n.label === activePage)?.icon}{" "}
             <span className="text-gray-600">{activePage}</span>
+          </span>
+
+          {/* Mobile: page title */}
+          <span className="md:hidden flex-1 text-[13px] font-semibold text-gray-700 truncate">
+            {navItems.find((n) => n.label === activePage)?.icon} {activePage}
           </span>
 
           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
@@ -192,10 +202,62 @@ export default function CampusConnect() {
           </div>
         </header>
 
+        {/* Mobile expandable search bar */}
+        {searchOpen && (
+          <div className="md:hidden px-4 py-2 bg-white border-b border-gray-200">
+            <div className="relative">
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search anything..."
+                className="w-full pl-4 pr-9 py-2 border border-gray-200 rounded-full text-[13px] bg-gray-50 focus:outline-none focus:border-blue-400 focus:bg-white transition"
+              />
+              <button
+                onClick={() => setSearchOpen(false)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ── Page content ── */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden pb-16 md:pb-0">
           {activeComponent}
         </main>
+
+        {/* ── Mobile bottom nav bar ── */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-10 bg-white border-t border-gray-200 flex items-center justify-around px-1 py-1 safe-area-pb">
+          {bottomNavItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleNavClick(item.label)}
+              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg flex-1 transition-colors ${
+                activePage === item.label
+                  ? "text-blue-700"
+                  : "text-gray-400"
+              }`}
+            >
+              <span className="text-xl leading-none">{item.icon}</span>
+              <span className="text-[9px] font-medium leading-tight truncate w-full text-center">
+                {item.label}
+              </span>
+              {activePage === item.label && (
+                <span className="w-1 h-1 rounded-full bg-blue-600 mt-0.5" />
+              )}
+            </button>
+          ))}
+          {/* "More" button opens the full drawer */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg flex-1 text-gray-400 transition-colors"
+          >
+            <span className="text-xl leading-none">☰</span>
+            <span className="text-[9px] font-medium leading-tight">More</span>
+          </button>
+        </nav>
+
       </div>
     </div>
   );

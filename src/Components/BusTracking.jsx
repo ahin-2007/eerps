@@ -196,7 +196,7 @@ export default function BusTracking() {
 
   return (
     /* Outer wrapper — fits inside any parent, scrolls internally */
-    <div className="w-full bg-black font-sans overflow-y-auto">
+    <div className="w-full bg-gray-50 font-sans overflow-y-auto">
 
       {/* ── Header ── */}
       <div className="bg-white border-b border-gray-200 px-3 sm:px-5 py-3 flex items-center justify-between sticky top-0 z-10">

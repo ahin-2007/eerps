@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const roles = ["STUDENT", "PARENT", "FACULTY", "HOD", "ADMIN", "STAFF",];
+const roles = ["STUDENT", "PARENT", "FACULTY", "HOD", "ADMIN", ];
 
 const roleIcons = {
   STUDENT: (

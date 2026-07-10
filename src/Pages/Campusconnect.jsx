@@ -6,6 +6,11 @@ import Results from "../Components/Results";
 import Timetable from "../Components/Timetable";
 import Attendance from "../Components/Attendance";
 import Notes from "../Components/Notes";
+import NoticeBoard from "../Components/NoticeBoard";
+import Placement from "../Components/Placement";
+import ContactUs from "../Components/ContactUs";
+import NotificationPanel from "../Components/NotificationPanel";
+import ProfileTab from "../Components/ProfileTab";
 
 
 const navItems = [
@@ -25,21 +30,66 @@ const navItems = [
 // First 5 items appear in the mobile bottom tab bar
 const bottomNavItems = navItems.slice(0, 5);
 
-const COMPONENT_MAP = {
-  Dashboard:    <Dashboard />,
-  BusTracking:  <BusTracking />,
-  AboutCollege: <AboutCollege />,
-  Results:<Results/>,
-  Timetable:<Timetable/>,
-  Attendance:<Attendance/>
-  ,
-  Notes:<Notes/>
-};
-
 export default function CampusConnect() {
   const [activePage, setActivePage]   = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen]   = useState(false);
+
+  // Notifications State
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      icon: "📈",
+      category: "Academic",
+      title: "Semester 3 Results Published",
+      description: "Results for the Semester 3 examination have been declared. Click below to view your grades.",
+      date: "Today",
+      important: true,
+      read: false,
+      actionLabel: "View Results",
+      actionPage: "Results"
+    },
+    {
+      id: 2,
+      icon: "💼",
+      category: "Placements",
+      title: "Infosys Registration Active",
+      description: "Last date to register for Infosys drive is July 10. Complete your registration process in the Placement portal.",
+      date: "Yesterday",
+      important: true,
+      read: false,
+      actionLabel: "Go to Placements",
+      actionPage: "Placement"
+    },
+    {
+      id: 3,
+      icon: "🚌",
+      category: "Transport",
+      title: "Bus Route 3 Delayed",
+      description: "Bus No 3 is delayed by 15 minutes due to heavy traffic. Inconvenience is regretted.",
+      date: "July 07",
+      important: false,
+      read: false,
+      actionLabel: "Track Bus",
+      actionPage: "BusTracking"
+    }
+  ]);
+
+  const handleMarkNotificationRead = (id) => {
+    setNotifications(notifications.map((n) => n.id === id ? { ...n, read: true } : n));
+  };
+
+  const handleMarkAllNotificationsRead = () => {
+    setNotifications(notifications.map((n) => ({ ...n, read: true })));
+  };
+
+  const handleDismissNotification = (id) => {
+    setNotifications(notifications.filter((n) => n.id !== id));
+  };
+
+  const handleClearAllNotifications = () => {
+    setNotifications([]);
+  };
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -52,7 +102,31 @@ export default function CampusConnect() {
     if (window.innerWidth < 768) setSidebarOpen(false);
   };
 
-  const activeComponent = COMPONENT_MAP[activePage] ?? (
+  const componentMap = {
+    Dashboard:    <Dashboard />,
+    BusTracking:  <BusTracking />,
+    AboutCollege: <AboutCollege />,
+    Results:      <Results />,
+    Timetable:    <Timetable />,
+    Attendance:   <Attendance />,
+    Notes:        <Notes />,
+    NoticeBoard:  <NoticeBoard />,
+    Placement:    <Placement />,
+    ContactUs:    <ContactUs />,
+    Notifications: (
+      <NotificationPanel
+        notifications={notifications}
+        onMarkAsRead={handleMarkNotificationRead}
+        onMarkAllAsRead={handleMarkAllNotificationsRead}
+        onDismiss={handleDismissNotification}
+        onClearAll={handleClearAllNotifications}
+        onChangePage={handleNavClick}
+      />
+    ),
+    Profile:      <ProfileTab />
+  };
+
+  const activeComponent = componentMap[activePage] ?? (
     <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-400 py-24">
       <span className="text-5xl">
         {navItems.find((n) => n.label === activePage)?.icon}
@@ -180,24 +254,38 @@ export default function CampusConnect() {
 
           {/* Breadcrumb */}
           <span className="hidden md:block text-[12px] text-gray-400 font-medium flex-shrink-0">
-            {navItems.find((n) => n.label === activePage)?.icon}{" "}
+            {navItems.find((n) => n.label === activePage)?.icon || (activePage === "Notifications" ? "🔔" : activePage === "Profile" ? "👤" : "")}{" "}
             <span className="text-gray-600">{activePage}</span>
           </span>
 
           {/* Mobile: page title */}
           <span className="md:hidden flex-1 text-[13px] font-semibold text-gray-700 truncate">
-            {navItems.find((n) => n.label === activePage)?.icon} {activePage}
+            {navItems.find((n) => n.label === activePage)?.icon || (activePage === "Notifications" ? "🔔" : activePage === "Profile" ? "👤" : "")} {activePage}
           </span>
 
           <div className="flex items-center gap-3 ml-auto flex-shrink-0">
-            <div className="relative cursor-pointer">
+            <div 
+              onClick={() => handleNavClick("Notifications")}
+              className={`relative cursor-pointer p-1.5 rounded-lg transition-colors hover:bg-gray-100 ${
+                activePage === "Notifications" ? "bg-gray-100 text-blue-700" : ""
+              }`}
+              title="Notifications"
+            >
               <span className="text-xl text-gray-500">🔔</span>
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                3
-              </span>
+              {notifications.filter((n) => !n.read).length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold animate-bounce">
+                  {notifications.filter((n) => !n.read).length}
+                </span>
+              )}
             </div>
-            <div className="flex items-center gap-2 cursor-pointer group">
-              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xs flex-shrink-0">
+            <div 
+              onClick={() => handleNavClick("Profile")}
+              className={`flex items-center gap-2 cursor-pointer group p-1.5 rounded-lg transition-colors hover:bg-gray-50 ${
+                activePage === "Profile" ? "bg-gray-50" : ""
+              }`}
+              title="View Profile"
+            >
+              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xs flex-shrink-0 border border-blue-200">
                 AR
               </div>
               <div className="hidden sm:block">

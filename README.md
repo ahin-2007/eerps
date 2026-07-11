@@ -1,5 +1,8 @@
 Title
 Education ERP System
+
+
+
 Abstract:
    The Education ERP System is a web-based application developed to automate and manage the academic and administrative activities of an educational institution. The system provides separate portals for administrators, the Head of Department (HOD), faculty members, students, parents, and transport staff with secure role-based access.
 

@@ -6,7 +6,7 @@ import CampusConnect from './Pages/Campusconnect'
 import ParentConnect from './Pages/Parentconnect'
 import FacultyConnect from './Pages/Facultyconnect'
 import HODDashboard from './Pages/HodDashboard'
-import AdminPanel from './Pages/Adminpanel'
+import AdminPanel from './Pages/AdminPanel'
 
 const router=createBrowserRouter([{
   path:"/",

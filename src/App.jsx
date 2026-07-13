@@ -6,6 +6,7 @@ import CampusConnect from './Pages/Campusconnect'
 import ParentConnect from './Pages/Parentconnect'
 import FacultyConnect from './Pages/Facultyconnect'
 import HODDashboard from './Pages/HodDashboard'
+import AdminPanel from './Pages/Adminpanel'
 
 const router=createBrowserRouter([{
   path:"/",
@@ -29,6 +30,10 @@ const router=createBrowserRouter([{
 {
   path:"hod",
   element:<HODDashboard/>
+},
+{
+  path:"admin",
+  element:<AdminPanel/>
 }
 ]
 

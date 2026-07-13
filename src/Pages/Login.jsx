@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect,createContext } from "react";
 import { Link } from "react-router-dom";
+import CampusConnect from "./Campusconnect";
 
 const roles = ["STUDENT", "PARENT", "FACULTY", "HOD", "ADMIN", ];
 
@@ -173,6 +174,7 @@ const CheckIcon = () => (
     <polyline points="20 6 9 17 4 12" />
   </svg>
 );
+export const usernameContext = createContext();
 
 export default function Login() {
   const [activeRole, setActiveRole] = useState("STUDENT");
@@ -334,6 +336,7 @@ export default function Login() {
                       type="text"
                       placeholder="Campus ID / Email"
                       value={campusId}
+                      
                       onChange={(e) => setCampusId(e.target.value)}
                       className="flex-1 py-3 pr-3 bg-transparent text-gray-700 placeholder-gray-400 text-sm focus:outline-none"
                     />
@@ -365,7 +368,8 @@ export default function Login() {
                   >
                     Login <ArrowRightIcon />
                   </Link>
-
+                  
+                    
                   <button
                     type="button"
                     className="flex items-center justify-center gap-3 py-3 px-6 w-full bg-white hover:bg-gray-100 active:bg-gray-200 text-gray-800 font-semibold rounded-lg border border-gray-300 transition-all shadow-md hover:shadow-lg text-sm"

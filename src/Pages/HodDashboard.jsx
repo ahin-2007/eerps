@@ -105,8 +105,8 @@ const PERF_DATA = [
 
 // ─── SIDEBAR NAV TREE ─────────────────────────────────────────────────────────
 const NAV = [
-  { key:"dashboard",   label:"Dashboard",    icon:"⊞",  children:[] },
-  { key:"students",    label:"Students",     icon:"🎓", children:[
+  { key:"dashboard",   label:"Dashboard",    icon:"⊞",  ch:[] },
+  { key:"students",    label:"Students",     icon:"🎓", ch:[
     { key:"all-students",      label:"All Students"    },
     { key:"yr1",               label:"1st Year"        },
     { key:"yr2",               label:"2nd Year"        },
@@ -116,37 +116,37 @@ const NAV = [
     { key:"promotion",         label:"Promotion"       },
     { key:"student-reports",   label:"Reports"         },
   ]},
-  { key:"faculty",     label:"Faculty",      icon:"👩‍🏫", children:[
+  { key:"faculty",     label:"Faculty",      icon:"👩‍🏫", ch:[
     { key:"all-faculty",   label:"All Faculty"    },
     { key:"workload",      label:"Workload"       },
     { key:"leave-req",     label:"Leave Requests" },
     { key:"faculty-perf",  label:"Performance"    },
   ]},
-  { key:"attendance",  label:"Attendance",   icon:"✅", children:[
+  { key:"attendance",  label:"Attendance",   icon:"✅", ch:[
     { key:"overall-att",  label:"Overall"          },
     { key:"yearwise-att", label:"Year-wise"        },
     { key:"subjwise-att", label:"Subject-wise"     },
     { key:"low-att",      label:"Low Attendance"   },
   ]},
-  { key:"academics",   label:"Academics",    icon:"📚", children:[
+  { key:"academics",   label:"Academics",    icon:"📚", ch:[
     { key:"internal-marks", label:"Internal Marks"  },
     { key:"sem-results",    label:"Semester Results"},
     { key:"subj-alloc",     label:"Subject Allocation"},
     { key:"timetable",      label:"Timetable"       },
     { key:"acad-cal",       label:"Academic Calendar"},
   ]},
-  { key:"materials",   label:"Assignments & Materials", icon:"📋", children:[
+  { key:"materials",   label:"Assignments & Materials", icon:"📋", ch:[
     { key:"uploaded-mat", label:"Uploaded Materials" },
     { key:"assignments",  label:"Assignments"        },
     { key:"approvals",    label:"Approval Requests"  },
   ]},
-  { key:"dept-mgmt",   label:"Department Mgmt", icon:"🏛️", children:[
+  { key:"dept-mgmt",   label:"Department Mgmt", icon:"🏛️", ch:[
     { key:"courses",    label:"Courses"   },
     { key:"subjects",   label:"Subjects"  },
     { key:"sections",   label:"Sections"  },
     { key:"batches",    label:"Batches"   },
   ]},
-  { key:"reports",     label:"Reports",      icon:"📊", children:[
+  { key:"reports",     label:"Reports",      icon:"📊", ch:[
     { key:"student-rep", label:"Student Reports"      },
     { key:"faculty-rep", label:"Faculty Reports"      },
     { key:"att-rep",     label:"Attendance Reports"   },
@@ -154,17 +154,17 @@ const NAV = [
     { key:"dept-perf",   label:"Dept Performance"     },
     { key:"export",      label:"Export PDF/Excel"     },
   ]},
-  { key:"notices",     label:"Announcements", icon:"📢", children:[
+  { key:"notices",     label:"Announcements", icon:"📢", ch:[
     { key:"create-ann",  label:"Create Announcement" },
     { key:"dept-notice", label:"Department Notices"  },
     { key:"events",      label:"Events"              },
   ]},
-  { key:"transport",   label:"Transport",    icon:"🚌", children:[
+  { key:"transport",   label:"Transport",    icon:"🚌", ch:[
     { key:"live-bus",   label:"Live Bus Tracking" },
     { key:"bus-routes", label:"Bus Routes"        },
     { key:"drivers",    label:"Driver Details"    },
   ]},
-  { key:"settings",    label:"Settings",     icon:"⚙️", children:[
+  { key:"settings",    label:"Settings",     icon:"⚙️", ch:[
     { key:"profile",    label:"Profile"         },
     { key:"password",   label:"Change Password" },
   ]},
@@ -852,25 +852,25 @@ function Sidebar({ page, setPage, open, setOpen }) {
         {/* Nav */}
         <nav className="flex-1 py-2">
           {NAV.map(item => {
-            const isActive = page === item.key || item.children.some(c => c.key === page);
+            const isActive = page === item.key || item.ch.some(c => c.key === page);
             return (
               <div key={item.key}>
                 <button
                   onClick={() => {
-                    if (item.children.length === 0) { setPage(item.key); setOpen(false); }
+                    if (item.ch.length === 0) { setPage(item.key); setOpen(false); }
                     else toggle(item.key);
                   }}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors text-[12px] font-semibold"
                   style={{
                     color:      isActive ? T.accent : "rgba(255,255,255,0.7)",
-                    background: isActive && item.children.length===0 ? T.sidebarAct+"33" : "transparent",
+                    background: isActive && item.ch.length===0 ? T.sidebarAct+"33" : "transparent",
                   }}
                   onMouseEnter={e => e.currentTarget.style.background = T.sidebarHov}
-                  onMouseLeave={e => e.currentTarget.style.background = isActive && item.children.length===0 ? T.sidebarAct+"33" : "transparent"}
+                  onMouseLeave={e => e.currentTarget.style.background = isActive && item.ch.length===0 ? T.sidebarAct+"33" : "transparent"}
                 >
                   <span className="text-base shrink-0">{item.icon}</span>
                   <span className="flex-1">{item.label}</span>
-                  {item.children.length > 0 && (
+                  {item.ch.length > 0 && (
                     <span className="text-white/40 text-[10px]">{expanded[item.key] ? "▾" : "›"}</span>
                   )}
                   {item.key === "faculty" && LEAVE_REQUESTS.filter(l=>l.status==="Pending").length > 0 && (
@@ -879,9 +879,9 @@ function Sidebar({ page, setPage, open, setOpen }) {
                     </span>
                   )}
                 </button>
-                {item.children.length > 0 && expanded[item.key] && (
+                {item.ch.length > 0 && expanded[item.key] && (
                   <div className="pb-1">
-                    {item.children.map(child => (
+                    {item.ch.map(child => (
                       <button key={child.key}
                         onClick={() => { setPage(child.key); setOpen(false); }}
                         className="w-full flex items-center gap-2 pl-11 pr-4 py-2 text-left transition-colors text-[11px]"
@@ -930,7 +930,7 @@ export default function HODDashboard() {
   const pageLabel = (() => {
     for (const item of NAV) {
       if (item.key === page) return item.label;
-      for (const c of item.children) if (c.key === page) return c.label;
+      for (const c of item.ch) if (c.key === page) return c.label;
     }
     return page;
   })();
